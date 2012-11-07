@@ -31,9 +31,9 @@ color_space_to_RGB_converter = {
 
 def convert_pixel(pixel, from_color_space, to_color_space):
     if from_color_space not in color_spaces:
-        raise ValueError("Invalid color space {}".format(color_space))
+        raise ValueError("Invalid color space {}".format(from_color_space))
     if to_color_space not in color_spaces:
-        raise ValueError("Invalid color space {}".format(color_space))
+        raise ValueError("Invalid color space {}".format(to_color_space))
 
     if from_color_space != "rgb":
         pixel = color_space_to_RGB_converter[from_color_space](*pixel)

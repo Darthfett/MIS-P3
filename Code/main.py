@@ -2,9 +2,15 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import generators
 
+# 3rd party
+import Image as pil
+
 # Built-in
 import os
 import sys
+
+# This package
+import task_I
 
 def get_image_files(dir):
     """Get the image filenames in directory."""
@@ -51,6 +57,9 @@ def get_color_space():
 def main(args):
     image_dir = get_image_dir()
     color_space = get_color_space()
+    image_paths = get_image_files(image_dir)
+    images = [pil.open(img) for img in image_paths]
+    task_I.median_cut_histogram(images, color_space)
 
 if __name__ == '__main__':
     main(sys.argv[1:]) # skip first argument ("main.py")
