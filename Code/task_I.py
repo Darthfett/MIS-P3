@@ -9,7 +9,7 @@ import os
 
 from pixel_converter import convert_pixel
 
-BINS = 8
+BINS = 16
 OUTPUT_FOLDER = os.path.join(os.path.split(__file__)[0], "../", "Outputs")
 
 def split_box(box, component):
