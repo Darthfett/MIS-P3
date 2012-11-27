@@ -16,7 +16,7 @@ def get_image_files(dir):
     """Get the image filenames in directory."""
     if not os.path.isdir(dir):
         raise ValueError("Invalid directory {}".format(dir))
-    extensions = {".jpg", ".png"}
+    extensions = {".jpg", ".png", ".bmp"}
     for filename in os.listdir(dir):
         if os.path.splitext(filename)[-1].lower() in extensions:
             yield os.path.join(dir, filename)
