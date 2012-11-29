@@ -10,10 +10,14 @@ are written into a file.
 
 from __future__ import division, print_function, generators
 
+import matplotlib.pyplot as plt
+
 from math import ceil
 import os
 import operator as op
 import itertools as it
+
+from pixel_converter import convert_pixel
 
 OUTPUT_FOLDER = os.path.join(os.path.split(__file__)[0], "../", "Outputs")
 
@@ -105,6 +109,19 @@ def histogram_generator(image, color_space):
 
             # Output
             histogram_output.append((image_id, cell_coord, color_instance_id, value))
+
+    fig = plt.figure()
+    axes = fig.add_subplot(1,1,1)
+    x = range(16)
+    y = [0 for _ in range(16)]
+    for out in histogram_output:
+        y[out[2]] += 1
+
+    axes.bar(x, y)
+    axes.set_xlabel('Bin')
+    axes.set_ylabel('Number of colors in bin')
+
+    plt.savefig(os.path.join(OUTPUT_FOLDER, 'Task_II_histogram_visual.png'))
 
     with open(os.path.join(OUTPUT_FOLDER, "Task_II_histogram.txt"), 'w') as histogram_file:
         histogram_file.write('\n'.join(str(s) for s in histogram_output))

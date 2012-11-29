@@ -1,6 +1,4 @@
-from __future__ import division
-from __future__ import print_function
-from __future__ import generators
+from __future__ import division, print_function, generators
 
 # 3rd party
 import Image as pil
@@ -11,6 +9,7 @@ import sys
 
 # This package
 import task_I
+import task_II
 
 def get_image_files(dir):
     """Get the image filenames in directory."""
@@ -38,6 +37,16 @@ def get_image_dir():
         image_dir = raw_input("Enter a directory containing the images: ")
     return image_dir
 
+def get_image():
+    image_fn = ''
+    while not image_fn:
+        image_fn = raw_input("Enter the path to an image: ")
+
+        if not os.path.isfile(image_fn):
+            image_fn = ''
+
+    return pil.open(image_fn)
+
 def get_color_space():
     """Get a valid color space from the user."""
     # The set of supported color spaces (as per instructions)
@@ -59,7 +68,12 @@ def main(args):
     color_space = get_color_space()
     image_paths = get_image_files(image_dir)
     images = [pil.open(img) for img in image_paths]
+
+    print("================ Task I ================")
     task_I.median_cut_histogram(images, color_space)
+
+    print("================ Task II ================")
+    task_II.histogram_generator(get_image(), color_space)
 
 if __name__ == '__main__':
     main(sys.argv[1:]) # skip first argument ("main.py")
