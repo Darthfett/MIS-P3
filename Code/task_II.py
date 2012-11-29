@@ -10,6 +10,7 @@ are written into a file.
 
 from __future__ import division, print_function, generators
 
+from math import ceil
 import os
 import operator as op
 import itertools as it
@@ -44,12 +45,30 @@ def bin_pixel(pixel, hist_spec):
 
     return -1
 
-def get_image_cells(pixels, width, cell_w, cell_h):
-    """
-    Given a list of image pixel values, the image's original width, and a cell width/height,
-    generate a list of image cells, in row major order.
-    """
-    pass
+def get_image_cells(channel, width, sq_width, sq_height):
+    """Get those stupid squares."""
+
+    height = int(ceil(len(channel) / width))
+
+    new_height = int(ceil(height / sq_height))
+    new_width = int(ceil(width / sq_width))
+    for top in range(0, new_height*sq_height, sq_height):
+        for left in range(0, new_width*sq_width, sq_width):
+
+            if (top == (new_height*sq_height)-sq_height):
+                sh = height-top
+            else:
+                sh = sq_height
+
+            if (left == (new_width*sq_width)-sq_width):
+                sw = width-left
+            else:
+                sw = sq_width
+
+            rows = []
+            for i in range(sh):
+                rows.extend(channel[((top + i) * width) + left : ((top + i) * width) + (left + sw)])
+            yield rows
 
 def get_histogram_spec():
     """
