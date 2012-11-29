@@ -12,12 +12,12 @@ from __future__ import division, print_function, generators
 
 import matplotlib.pyplot as plt
 
-from math import ceil
 import os
 import operator as op
 import itertools as it
 
 from pixel_converter import convert_pixel
+from divider import get_image_cells
 
 OUTPUT_FOLDER = os.path.join(os.path.split(__file__)[0], "../", "Outputs")
 
@@ -48,31 +48,6 @@ def bin_pixel(pixel, hist_spec):
             return i
 
     return -1
-
-def get_image_cells(channel, width, sq_width, sq_height):
-    """Get those stupid squares."""
-
-    height = int(ceil(len(channel) / width))
-
-    new_height = int(ceil(height / sq_height))
-    new_width = int(ceil(width / sq_width))
-    for top in range(0, new_height*sq_height, sq_height):
-        for left in range(0, new_width*sq_width, sq_width):
-
-            if (top == (new_height*sq_height)-sq_height):
-                sh = height-top
-            else:
-                sh = sq_height
-
-            if (left == (new_width*sq_width)-sq_width):
-                sw = width-left
-            else:
-                sw = sq_width
-
-            rows = []
-            for i in range(sh):
-                rows.extend(channel[((top + i) * width) + left : ((top + i) * width) + (left + sw)])
-            yield rows
 
 def get_histogram_spec():
     """
