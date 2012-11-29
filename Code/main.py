@@ -10,6 +10,7 @@ import sys
 # This package
 import task_I
 import task_II
+import task_III
 
 def get_image_files(dir):
     """Get the image filenames in directory."""
@@ -73,7 +74,10 @@ def main(args):
     task_I.median_cut_histogram(images, color_space)
 
     print("================ Task II ================")
-    task_II.histogram_generator(get_image(), color_space)
+    image = get_image()
+    task_II.histogram_generator(image, color_space)
+
+    print("================ Task III ================")
 
 if __name__ == '__main__':
     main(sys.argv[1:]) # skip first argument ("main.py")
