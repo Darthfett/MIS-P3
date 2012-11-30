@@ -9,18 +9,18 @@ are written into a file.
 """
 
 from __future__ import division, print_function, generators
-from scipy import fftpack
+import scipy as sp
 from divider import get_image_cells
 
 def dct_freq(image, color_space):
     output = do_dct(image)
 
 def do_dct(image)
-    output = dct(image, type=2)
+    output = sp.fftpack.dct(image, type=2)
     return output
 
 def do_dct(image)
-    output = dct(image, type=2)
+    output = sp.fftpack.idct(image, type=2)
     return output
 
 def undo_dct
