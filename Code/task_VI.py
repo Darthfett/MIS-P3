@@ -13,18 +13,27 @@ Using scipy library to aid with dct
 """
 
 from __future__ import division, print_function, generators
-import scipy as sp
+import pywt as wv
 from divider import get_image_cells
 
-def dct_freq(image, color_space):
-    output = do_dct(image)
-
-def do_dct(image)
-    output = sp.fftpack.dct(image, type=2)
+def dwt_freq(cells, color_space):
+    """
+    do for each cell, then for each cell pick significant value and print to a file.
+    output[0] is appromxiations, output[1] is details
+    for output[0][n] and output[1][n], n corresponds to the cells of an image. 
+    n=0 is the first cell of an image. n=N-1 is the last cell, if the image consists of N=W*H cells.
+    """
+    output = [[]], []]
+    for cell in cells
+        approx, detail = do_dwt(cell)
+        output[0].append(approx)
+        output[1].append(detail)
     return output
 
-def do_dct(image)
-    output = sp.fftpack.idct(image, type=2)
-    return output
+def do_dwt(cell):
+    approx, detail = wv.dwt(cell, 'db1')
+    return approx, detail
 
-def undo_dct
+def undo_dwt(cA, cD):
+    output = wv.idwt(cell, 'db1')
+    return output
