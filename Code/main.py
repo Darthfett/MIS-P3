@@ -78,6 +78,8 @@ def main(args):
     task_II.histogram_generator(image, image_id, color_space)
 
     print("================ Task III ================")
+    image, image_id = get_image()
+    task_III.dct_freq(image, image_id, color_space)
 
 if __name__ == '__main__':
     main(sys.argv[1:]) # skip first argument ("main.py")
