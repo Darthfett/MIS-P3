@@ -11,6 +11,7 @@ import sys
 import task_I
 import task_II
 import task_III
+import task_VI
 
 def get_image_files(dir):
     """Get the image filenames in directory."""
@@ -80,6 +81,10 @@ def main(args):
     print("================ Task III ================")
     image, image_id = get_image()
     task_III.dct_freq(image, image_id, color_space)
+
+    print("================ Task VI ================")
+    image, image_id = get_image()
+    task_VI.dwt_freq(image, image_id, color_space)
 
 if __name__ == '__main__':
     main(sys.argv[1:]) # skip first argument ("main.py")

@@ -8,32 +8,46 @@ most significant frequency components from each of the three channels. The outpu
 are written into a file.
 """
 
-"""
-Using scipy library to aid with dct
-"""
-
 from __future__ import division, print_function, generators
-import pywt as wv
+
+import pywt
+
+import os
+from itertools import izip_longest
+
 from divider import get_image_cells
 
-def dwt_freq(cells, color_space):
-    """
-    do for each cell, then for each cell pick significant value and print to a file.
-    output[0] is appromxiations, output[1] is details
-    for output[0][n] and output[1][n], n corresponds to the cells of an image. 
-    n=0 is the first cell of an image. n=N-1 is the last cell, if the image consists of N=W*H cells.
-    """
-    output = [[]], []]
-    for cell in cells
-        approx, detail = do_dwt(cell)
-        output[0].append(approx)
-        output[1].append(detail)
-    return output
+def grouper(n, iterable, fillvalue=None): # this is an itertools recipe function
+    "Collect data into fixed-length chunks or blocks"
+    # grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx
+    args = [iter(iterable)] * n
+    return izip_longest(fillvalue=fillvalue, *args)
 
-def do_dwt(cell):
-    approx, detail = wv.dwt(cell, 'db1')
-    return approx, detail
+OUTPUT_FOLDER = os.path.join(os.path.split(__file__)[0], "../", "Outputs")
 
-def undo_dwt(cA, cD):
-    output = wv.idwt(cell, 'db1')
-    return output
+def dwt_freq(image, image_id, color_space):
+    pixels = list(image.getdata())
+    width = image.size[0]
+
+    # Split the image into 8x8 image cells
+    image_cells = list(get_image_cells(pixels, width, 8, 8))
+
+    output = []
+    for cell_coord, cell in enumerate(image_cells):
+        channels = zip(*cell)
+
+        for channel_id, channel in enumerate(channels):
+            freq_components = sum([list(x) for x in dwt(list(grouper(width, channel)))], [])
+
+            most_significant = freq_components[:16]
+            for freq_bin, value in enumerate(most_significant):
+                output.append((image_id, cell_coord, channel_id, freq_bin, value))
+
+    with open(os.path.join(OUTPUT_FOLDER, "Task_VI_out.txt"), 'w') as f:
+        f.write('\n'.join(str(s) for s in output))
+
+
+def dwt(channel):
+    cA, (cH,cD,cV) = pywt.dwt2(channel, 'db1')
+    return list(cD)
+
