@@ -46,7 +46,7 @@ def get_image():
         if not os.path.isfile(image_fn):
             image_fn = ''
 
-    return pil.open(image_fn)
+    return pil.open(image_fn), os.path.split(image_fn)[1]
 
 def get_color_space():
     """Get a valid color space from the user."""
@@ -74,8 +74,8 @@ def main(args):
     task_I.median_cut_histogram(images, color_space)
 
     print("================ Task II ================")
-    image = get_image()
-    task_II.histogram_generator(image, color_space)
+    image, image_id = get_image()
+    task_II.histogram_generator(image, image_id, color_space)
 
     print("================ Task III ================")
 
