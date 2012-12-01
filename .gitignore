@@ -26,6 +26,9 @@ pip-log.txt
 #Project files
 *.geany
 
+#batch files
+*.bat
+
 #Mr Developer
 .mr.developer.cfg
 
