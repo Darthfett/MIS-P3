@@ -41,8 +41,8 @@ def dct_freq(image, image_id, color_space):
 
 
 def dct(channel):
-    return sp_dct([float(x) for x in channel], type=2)
+    return sp_dct([float(x) for x in channel], type=2, norm='ortho')
 
 def dct_inverse(channel):
-    return sp_idct(channel, type=2)
+    return sp_idct(channel, type=2, norm='ortho')
 
