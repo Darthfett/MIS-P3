@@ -50,7 +50,6 @@ def get_hist_angle_bins(img):
 	bin_lowers = list(numpy.array(bin_edges).reshape(-1,))#unnecessary because i've already reshaped the data?
 	bin_lowers.pop()#gets rid of the high side of the highest bin
 	hist_vals = list(numpy.array(hist).reshape(-1,))#also unnecessary?
-	#pdb.set_trace()
 	return bin_lowers, hist_vals
 	
 
@@ -68,7 +67,6 @@ def angle_histogram_generator(image, image_id, color_space):
 	image_cells = list(get_image_cells(y, width, 8, 8))
 	histogram_output = []
 	for cell_coord, cell in enumerate(image_cells):
-		#pdb.set_trace()
 		color_instance_id_list, value_list = get_hist_angle_bins(cell)
 		for i in range (0,15):
 			histogram_output.append((image_id, cell_coord, color_instance_id_list[i], value_list[i]))
@@ -80,5 +78,3 @@ pilim = Image.open('bacon_coke.jpg')
 image_id = 'bacon_coke.jpg'
 color_space = "rgb"
 angle_hist = angle_histogram_generator(pilim, image_id, color_space)
-pdb.set_trace()
-print angle_hist
