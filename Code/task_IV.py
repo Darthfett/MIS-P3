@@ -61,14 +61,11 @@ def angle_histogram_generator(image, image_id, color_space):
 	'''
 	pixels = pilim.getdata()
 	width = pilim.size[0]
-	pixels = [convert_pixel(pixel, "rgb", color_space) for pixel in pixels]
-
-	image_cells = list(get_image_cells(pixels, width, 8, 8))
+	pixels = [convert_pixel(pixel, "yuv", color_space) for pixel in pixels]
+	y,u,v = zip(*pixels)#separate out luminance
+	image_cells = list(get_image_cells(y, width, 8, 8))
 	histogram_output = []
 	for cell_coord, cell in enumerate(image_cells):
-		#import pdb; pdb.set_trace()
-		#print "cell_coord: ", cell_coord
-		#print "cell: ", cell
 		color_instance_id_list, value_list = get_hist_angle_bins(cell)
 		for i in range (0,15):
 			histogram_output.append((image_id, cell_coord, color_instance_id_list[i], value_list[i]))

@@ -49,8 +49,10 @@ def amplitude_histogram_generator(image, image_id, color_space):
 	'''
 	pixels = pilim.getdata()
 	width = pilim.size[0]
-	pixels = [convert_pixel(pixel, "rgb", color_space) for pixel in pixels]
-	image_cells = list(get_image_cells(pixels, width, 8, 8))
+	pixels = [convert_pixel(pixel, "yuv", color_space) for pixel in pixels]
+	y,u,v = zip(*pixels)#pull out luminance
+	import pdb; pdb.set_trace()
+	image_cells = list(get_image_cells(y, width, 8, 8))
 	histogram_output = []
 	for cell_coord, cell in enumerate(image_cells):
 		color_instance_id_list, value_list = get_hist_amp_bins(cell)
