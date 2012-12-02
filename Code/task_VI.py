@@ -48,6 +48,6 @@ def dwt_freq(image, image_id, color_space):
 
 
 def dwt(channel):
-    cA, (cH,cD,cV) = pywt.dwt2(channel, 'db1')
+    cA, (cH,cV,cD) = pywt.dwt2(channel, 'db1')
     return list(cD)
 
