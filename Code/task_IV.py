@@ -13,7 +13,7 @@ from PIL import Image
 from numpy import ndarray
 from pixel_converter import convert_pixel
 import math
-
+import pdb
 
 
 
@@ -31,10 +31,11 @@ def get_hist_angle_bins(img):
 	has the number of pixels in each bin.
 	'''
 	
-	im = PIL2array(pilim)
-	sx = ndimage.sobel(im, axis=0, mode = 'constant')
-	sy = ndimage.sobel(im, axis=1, mode = 'constant')
-	sx = list(numpy.array(sx).reshape(-1,))
+	im = numpy.array(img)
+	im = numpy.resize(im,(8,8))#reshape array to model 8x8 cell
+	sx = ndimage.sobel(im, axis=0, mode = 'constant')#apply sobel operator in x-direction
+	sy = ndimage.sobel(im, axis=1, mode = 'constant')#apply sobel operator in y-direction
+	sx = list(numpy.array(sx).reshape(-1,))#reshape sobel output into 1-d list for easy manipulation
 	sy = list(numpy.array(sx).reshape(-1,))
 	sobel = []
 	for x in sx:
@@ -46,9 +47,10 @@ def get_hist_angle_bins(img):
 			else:
 				sobel.append(math.atan(200))#what should the value be if x is 0?
 	hist, bin_edges = numpy.histogram(sobel, bins = 16)
-	#bin_lowers = list(numpy.array(bin_edges).reshape(-1,))#unnecessary because i've already reshaped the data?
-	bin_lowers.pop()
-	#hist_vals = list(numpy.array(hist).reshape(-1,))#also unnecessary?
+	bin_lowers = list(numpy.array(bin_edges).reshape(-1,))#unnecessary because i've already reshaped the data?
+	bin_lowers.pop()#gets rid of the high side of the highest bin
+	hist_vals = list(numpy.array(hist).reshape(-1,))#also unnecessary?
+	#pdb.set_trace()
 	return bin_lowers, hist_vals
 	
 
@@ -59,16 +61,18 @@ def angle_histogram_generator(image, image_id, color_space):
 	splits the image into 8x8 cells, generates a histogram for each cell.
 	
 	'''
-	pixels = pilim.getdata()
-	width = pilim.size[0]
-	pixels = [convert_pixel(pixel, "yuv", color_space) for pixel in pixels]
+	pixels = image.getdata()
+	width = image.size[0]
+	pixels = [convert_pixel(pixel, color_space, "yuv") for pixel in pixels]
 	y,u,v = zip(*pixels)#separate out luminance
 	image_cells = list(get_image_cells(y, width, 8, 8))
 	histogram_output = []
 	for cell_coord, cell in enumerate(image_cells):
+		#pdb.set_trace()
 		color_instance_id_list, value_list = get_hist_angle_bins(cell)
 		for i in range (0,15):
 			histogram_output.append((image_id, cell_coord, color_instance_id_list[i], value_list[i]))
+	return histogram_output
 '''
 testing:
 '''		
@@ -76,3 +80,5 @@ pilim = Image.open('bacon_coke.jpg')
 image_id = 'bacon_coke.jpg'
 color_space = "rgb"
 angle_hist = angle_histogram_generator(pilim, image_id, color_space)
+pdb.set_trace()
+print angle_hist
