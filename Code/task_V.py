@@ -12,7 +12,7 @@ from divider import get_image_cells
 from PIL import Image
 from numpy import ndarray
 from pixel_converter import convert_pixel
-
+import pdb
 
 
 
@@ -29,9 +29,10 @@ def get_hist_amp_bins(img):
 	has the number of pixels in each bin.
 	'''
 	
-	im = PIL2array(pilim)
-	sx = ndimage.sobel(im, axis=0, mode = 'constant')
-	sy = ndimage.sobel(im, axis=1, mode = 'constant')
+	im = numpy.array(img)
+	im = numpy.resize(im,(8,8))#reshape array to model 8x8 cell
+	sx = ndimage.sobel(im, axis=0, mode = 'constant')#apply sobel operator in x-direction
+	sy = ndimage.sobel(im, axis=1, mode = 'constant')#apply sobel operator in y-direction
 	sob = numpy.hypot(sx,sy)
 	hist, bin_edges = numpy.histogram(sob, bins = 16)#sob or im?
 	bin_lowers = list(numpy.array(bin_edges).reshape(-1,))
@@ -47,22 +48,25 @@ def amplitude_histogram_generator(image, image_id, color_space):
 	splits the image into 8x8 cells, generates a histogram for each cell.
 	
 	'''
-	pixels = pilim.getdata()
-	width = pilim.size[0]
-	pixels = [convert_pixel(pixel, "yuv", color_space) for pixel in pixels]
+	pixels = image.getdata()
+	width = image.size[0]
+	pixels = [convert_pixel(pixel, color_space, "yuv") for pixel in pixels]
 	y,u,v = zip(*pixels)#pull out luminance
-	import pdb; pdb.set_trace()
 	image_cells = list(get_image_cells(y, width, 8, 8))
 	histogram_output = []
 	for cell_coord, cell in enumerate(image_cells):
 		color_instance_id_list, value_list = get_hist_amp_bins(cell)
 		for i in range (0,15):
 			histogram_output.append((image_id, cell_coord, color_instance_id_list[i], value_list[i]))
-		
+	return histogram_output
+
+'''
+testing:
 pilim = Image.open('bacon_coke.jpg')
 image_id = 'bacon_coke.jpg'
 color_space = "rgb"
 amp_hist = amplitude_histogram_generator(pilim, image_id, color_space)
- 
+'''
+
 
 
