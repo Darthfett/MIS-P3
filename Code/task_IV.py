@@ -1,7 +1,5 @@
 '''
-Created on Dec 1, 2012
-
-@author: wes
+To perform task IV, call angle_histogram_generator(...)
 '''
 from scipy import misc
 from scipy import ndimage
@@ -43,9 +41,12 @@ def get_hist_angle_bins(img):
 			x = float(x)
 			y = float(y)
 			if x != 0:#Avoid a divide-by-zero error
-				sobel.append(math.atan(float(y)/float(x)))
+				angle = math.degrees((math.atan2(y,x))) #does this give the angle we're looking for?  trying to get the full 360-degree range
 			else:
-				sobel.append(math.atan(200))#what should the value be if x is 0?
+				angle = math.degrees((math.atan(200)))#what should the value be if x is 0?
+			if angle<0:
+				angle +=360
+			sobel.append(angle)
 	hist, bin_edges = numpy.histogram(sobel, bins = 16)
 	bin_lowers = list(numpy.array(bin_edges).reshape(-1,))#unnecessary because i've already reshaped the data?
 	bin_lowers.pop()#gets rid of the high side of the highest bin
@@ -62,15 +63,46 @@ def angle_histogram_generator(image, image_id, color_space):
 	'''
 	pixels = image.getdata()
 	width = image.size[0]
-	pixels = [convert_pixel(pixel, color_space, "yuv") for pixel in pixels]
-	y,u,v = zip(*pixels)#separate out luminance
-	image_cells = list(get_image_cells(y, width, 8, 8))
+	#pixels = [convert_pixel(pixel, color_space, "yuv") for pixel in pixels]
+	
+	c1,c2,c3 = zip(*pixels)#separate out luminance
+	if color_space == "RGB" or "rgb":
+		n1 = 'R'
+		n2 = 'G'
+		n3 = 'B'
+	elif color_space == "YUV" or "yuv":
+		n1 = 'Y'
+		n2 = 'U'
+		n3 = 'V'
+	else:
+		n1 = 'H'
+		n2 = 'S'
+		n3 = 'V'
 	histogram_output = []
+	#for c1:
+	image_cells = list(get_image_cells(c1, width, 8, 8))
+	for cell_coord, cell in enumerate(image_cells):
+		#pdb.set_trace()
+		color_instance_id_list, value_list = get_hist_angle_bins(cell)
+		for i in range (0,15):
+			histogram_output.append((image_id, cell_coord, n1, color_instance_id_list[i], value_list[i]))
+	return histogram_output
+	#for c2:
+	image_cells = list(get_image_cells(c2, width, 8, 8))
+	for cell_coord, cell in enumerate(image_cells):
+		#pdb.set_trace()
+		color_instance_id_list, value_list = get_hist_angle_bins(cell)
+		for i in range (0,15):
+			histogram_output.append((image_id, cell_coord, n2, color_instance_id_list[i], value_list[i]))
+	return histogram_output
+	#for c3:
+	image_cells = list(get_image_cells(c3, width, 8, 8))
 	for cell_coord, cell in enumerate(image_cells):
 		color_instance_id_list, value_list = get_hist_angle_bins(cell)
 		for i in range (0,15):
-			histogram_output.append((image_id, cell_coord, color_instance_id_list[i], value_list[i]))
+			histogram_output.append((image_id, cell_coord, n3, color_instance_id_list[i], value_list[i]))
 	return histogram_output
+	
 '''
 testing:
 '''		
@@ -78,3 +110,5 @@ pilim = Image.open('bacon_coke.jpg')
 image_id = 'bacon_coke.jpg'
 color_space = "rgb"
 angle_hist = angle_histogram_generator(pilim, image_id, color_space)
+pdb.set_trace()
+print angle_hist
