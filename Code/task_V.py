@@ -1,6 +1,6 @@
 
 '''
-To perform task III, call amplitude_histogram_generator(...) from below
+To perform task V, call amplitude_histogram_generator(...) from below
 '''
 from scipy import misc
 from scipy import ndimage
