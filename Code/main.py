@@ -11,6 +11,8 @@ import sys
 import task_I
 import task_II
 import task_III
+import task_IV
+import task_V
 import task_VI
 
 def get_image_files(dir):
@@ -82,6 +84,14 @@ def main(args):
     image, image_id = get_image()
     task_III.dct_freq(image, image_id, color_space)
 
+    print("================ Task IV ================")
+    image, image_id = get_image()
+    task_IV.do_task_4(image, image_id, color_space)
+	
+    print("================ Task V ================")
+    image, image_id = get_image()
+    task_V.do_task_5(image, image_id, color_space)
+	
     print("================ Task VI ================")
     image, image_id = get_image()
     task_VI.dwt_freq(image, image_id, color_space)
