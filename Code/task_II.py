@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 import os
 import operator as op
 import itertools as it
-
+import imagedata as id
 from pixel_converter import convert_pixel
 from divider import get_image_cells
 
@@ -72,12 +72,13 @@ def histogram_generator(image, image_id, color_space):
 
     # Split the image into 8x8 image cells
     image_cells = list(get_image_cells(pixels, width, 8, 8))
-
+    
     # Get histogram specification
     hist_spec = get_histogram_spec()
 
     histogram_output = []
     for cell_coord, cell in enumerate(image_cells):
+        id.add_cell(image_id, cell_coord)
         bin_counter = dict(zip(range(16), [0]*16))
 
         for pix_coord, pixel in enumerate(cell):
@@ -90,3 +91,4 @@ def histogram_generator(image, image_id, color_space):
 
     with open(os.path.join(OUTPUT_FOLDER, "Task_II_histogram.txt"), 'w') as histogram_file:
         histogram_file.write('\n'.join(str(s) for s in histogram_output))
+        
