@@ -1,5 +1,5 @@
 '''
-To perform task IV, call angle_histogram_generator(...)
+To perform task IV, call do_task_4(...) from below. Writes to output folder.
 '''
 from scipy import misc
 from scipy import ndimage
@@ -11,9 +11,11 @@ from PIL import Image
 from numpy import ndarray
 from pixel_converter import convert_pixel
 import math
+import os
 import pdb
 
 
+OUTPUT_FOLDER = os.path.join(os.path.split(__file__)[0], "../", "Outputs")
 
 
 def PIL2array(img):
@@ -102,13 +104,16 @@ def angle_histogram_generator(image, image_id, color_space):
 		for i in range (0,15):
 			histogram_output.append((image_id, cell_coord, n3, color_instance_id_list[i], value_list[i]))
 	return histogram_output
-	
-'''
-testing:
-'''		
+
+def do_task_4(image, image_id, color_space):
+		output = angle_histogram_generator(image, image_id, color_space)
+		with open(os.path.join(OUTPUT_FOLDER, "Task_IV_out.txt"), 'w') as output_file:
+			output_file.write('\n'.join(str(s) for s in output))
+
+
+#testing:		
 pilim = Image.open('bacon_coke.jpg')
 image_id = 'bacon_coke.jpg'
 color_space = "rgb"
-angle_hist = angle_histogram_generator(pilim, image_id, color_space)
-pdb.set_trace()
-print angle_hist
+do_task_4(pilim, image_id, color_space)
+

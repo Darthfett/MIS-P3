@@ -1,6 +1,6 @@
 
 '''
-To perform task V, call amplitude_histogram_generator(...) from below
+To perform task V, call do_task_5(...) from below. Writes to output folder.
 '''
 from scipy import misc
 from scipy import ndimage
@@ -11,8 +11,10 @@ from divider import get_image_cells
 from PIL import Image
 from numpy import ndarray
 from pixel_converter import convert_pixel
+import os
 import pdb
 
+OUTPUT_FOLDER = os.path.join(os.path.split(__file__)[0], "../", "Outputs")
 
 
 def PIL2array(img):
@@ -88,13 +90,18 @@ def amplitude_histogram_generator(image, image_id, color_space):
 	return histogram_output
 	
 
-'''
+def do_task_5(image, image_id, color_space):
+		output = amplitude_histogram_generator(image, image_id, color_space)
+		with open(os.path.join(OUTPUT_FOLDER, "Task_V_out.txt"), 'w') as output_file:
+			output_file.write('\n'.join(str(s) for s in output))
+			
+
 #testing:
 pilim = Image.open('bacon_coke.jpg')
 image_id = 'bacon_coke.jpg'
 color_space = "rgb"
-amp_hist = amplitude_histogram_generator(pilim, image_id, color_space)
-'''
+do_task_5(pilim, image_id, color_space)
+
 
 
 
