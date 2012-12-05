@@ -28,17 +28,15 @@ def get_dct_freq(image, image_id, color_space):
     image_cell_channels = [[[[pixel[ch] for pixel in row] for row in cell] for cell in image_cells] for ch in range(3)]
 
     output = []
-    for cell_coord, cell in enumerate(image_cells):
-        channels = zip(*cell)
-
-        for channel_id, channel in enumerate(channels):
-            freq_components = dct(channel)
+    for channel_id, channel_cells in enumerate(image_cell_channels):
+        for cell_coord, cell in enumerate(channel_cells):
+            freq_components = dct2(cell)
 
             most_significant = freq_components[:16]
             for freq_bin, value in enumerate(most_significant):
                 output.append((image_id, cell_coord, channel_id, freq_bin, value))
-                # cell_id = imagedb.get_cell_id(image_id, cell_coord)
-                # imagedb.add_dct(cell_id, channel_id, freq_bin, value)
+
+    return sorted(output)
 
 def dct_freq(image, image_id, color_space):
     output = get_dct_freq(image, image_id, color_space)
@@ -53,7 +51,8 @@ def dct(channel):
 def dct2(rows):
     dct_result = [dct(row) for row in rows]
     cols = zip(*dct_result)
-    dct2_result = [dct(col) for col in cols]
+    dct2_result = sum([list(dct(col)) for col in cols], [])
+    return dct2_result
 
 def dct_inverse(channel):
     return sp_idct(channel, type=2, norm='ortho')

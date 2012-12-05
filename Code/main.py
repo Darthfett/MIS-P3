@@ -125,8 +125,8 @@ def main(args):
     task_I.median_cut_histogram(images, color_space)
 
     print("================ Task II ================")
-    image, image_id = get_image()
-    task_II.histogram_generator(image, image_id, color_space)
+    # image, image_id = get_image()
+    # task_II.histogram_generator(image, image_id, color_space)
     # task_II.histogram_generator(image, image_id, color_space, imagedb)
     # print("\a")#system beep
     print("================ Task III ================")
@@ -134,6 +134,7 @@ def main(args):
     task_III.dct_freq(image, image_id, color_space)
     # task_III.dct_freq(image, image_id, color_space, imagedb)
     # print("\a")#system beep
+    return
     print("================ Task IV ================")
     image, image_id = get_image()
     task_IV.do_task_4(image, image_id, color_space)
@@ -151,7 +152,7 @@ def main(args):
 
     print("================ Task VI ================")
     response = batch_option()
-    if response == 'y'
+    if response == 'y':
         batch_dir = get_image_dir()
         process_batch(batch_dir)
 
