@@ -118,7 +118,7 @@ def median_cut(pixels, n):
 def get_all_the_pixels(images):
     return it.chain.from_iterable(img.getdata() for img in images)
 
-def median_cut_histogram(images, color_space):
+def get_histogram_spec(images, color_space):
     # Get all the pixels
     pixels = get_all_the_pixels(images)
 
@@ -126,6 +126,12 @@ def median_cut_histogram(images, color_space):
     pixels = [convert_pixel(pixel, "rgb", color_space) for pixel in pixels]
 
     bins = median_cut(pixels, BINS)
+
+    return bins
+
+
+def median_cut_histogram(images, color_space):
+    bins = get_histogram_spec(images, color_space)
 
     with open(os.path.join(OUTPUT_FOLDER, "Task_I_histogram_boundaries.txt"), 'w') as out:
         out.write(str(bins))

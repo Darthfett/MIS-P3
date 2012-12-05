@@ -1,4 +1,6 @@
 *.py[co]
+Thumbs.db
+[Tt]humbs.db
 
 # Packages
 *.egg
