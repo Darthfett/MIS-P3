@@ -36,3 +36,4 @@ pip-log.txt
 
 # Project-specific
 Outputs/*
+Databases/*
