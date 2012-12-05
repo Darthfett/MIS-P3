@@ -6,34 +6,54 @@ Task VIII Implement a program which given
 identi?es the best 10 matching image regions for each feature and displays the matches.
 """
 import task_II
+import task_III
+import task_IV
+import task_V
+import task_VI
 
 def query_region():
-    #get data for these 9 cells via processing of given image
+    image, image_id = get_image()
+    width, height = image.size
+    
+    new_height = int(ceil(height / 8))#cells in a column
+    new_width = int(ceil(width / 8))#cells in a row
     print("================ Task II ================")
-    task_II.histogram_generator(image, image_id, color_space)
+    ihist = task_II.histogram_generator(image, image_id, color_space)
     
     print("================ Task III ================")
-    image, image_id = get_image()
-    task_III.dct_freq(image, image_id, color_space)
+    idct = task_III.dct_freq(image, image_id, color_space)
     
     print("================ Task IV ================")
-    image, image_id = get_image()
-    task_IV.do_task_4(image, image_id, color_space)
+    iangle = task_IV.do_task_4(image, image_id, color_space)
 	
     print("================ Task V ================")
-    image, image_id = get_image()
-    task_V.do_task_5(image, image_id, color_space)
+    iamp = task_V.do_task_5(image, image_id, color_space)
 	
     print("================ Task VI ================")
-    image, image_id = get_image()
-    task_VI.dwt_freq(image, image_id, color_space)
+    idwt = task_VI.dwt_freq(image, image_id, color_space)
+    
     #retrieve cell_coord top left
-    cell_coord = raw_input("Enter the coordinate ID for the top left cell in desired query region:  ")
+    coord = raw_input("Enter the coordinate ID for the top left cell in desired query region:  ")
     #retrieve 9 cells
     qr = []
+    
+    # this gets our <0,0> for the region
     # row :  if x coord > # of cells in (row - 2), then x(an index #)= row.length -3 (account for index = 0)
     
+    if coord % new_width >= (new_width -2):
+        x = new_width - 3
+    else:
+        x = coord % new_width
+    if coord // new_height >= (new_height - 2):
+        y = new_height - 3
+    else:
+        y = coord // new_height    
+    coord = x + new_width *y
     
+    for y in range (3):
+        for x in range (3):
+            qr.append(coord + x + (new_width * y))
+            
     #using general historgram spec from task one
     histospec = get_histogram_spec()
     
