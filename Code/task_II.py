@@ -58,7 +58,7 @@ def get_histogram_spec():
         hist_spec = eval(hist_spec_file.read())
     return hist_spec
 
-def histogram_generator(image, image_id, color_space):
+def histogram_generator(image, image_id, color_space, imagedb):
     """
     Given an image, target operational color space, and the histogram spec from task I,
     divide the image into 8x8 image cells, and generate a histogram for each cell,
@@ -78,7 +78,7 @@ def histogram_generator(image, image_id, color_space):
 
     histogram_output = []
     for cell_coord, cell in enumerate(image_cells):
-        id.add_cell(image_id, cell_coord)
+        imagedb.add_cell(image_id, cell_coord)
         bin_counter = dict(zip(range(16), [0]*16))
 
         for pix_coord, pixel in enumerate(cell):

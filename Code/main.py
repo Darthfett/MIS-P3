@@ -6,6 +6,7 @@ import Image as pil
 # Built-in
 import os
 import sys
+from datetime import datetime
 
 # This package
 import task_I
@@ -14,6 +15,7 @@ import task_III
 import task_IV
 import task_V
 import task_VI
+import imagedata
 
 def get_image_files(dir):
     """Get the image filenames in directory."""
@@ -67,34 +69,48 @@ def get_color_space():
         color_space = raw_input("Enter a target operational color space: ").lower()
     return color_space
 
+def get_database_name():
+    # The default color space
+    default_database = "test"+str(datetime.today().minute)+".db"
+
+    filename = raw_input("Enter a database filename: ").lower()
+    db = filename+str(datetime.today().minute)
+    
+    if not db:
+        db = default_database
+    
+    return db
+    
 def main(args):
     image_dir = get_image_dir()
     color_space = get_color_space()
     image_paths = get_image_files(image_dir)
     images = [pil.open(img) for img in image_paths]
-
+    db = get_database_name()
+    imagedb = imagedata.myDB(db)
+    imagedb.make_db()
     print("================ Task I ================")
     task_I.median_cut_histogram(images, color_space)
 
     print("================ Task II ================")
     image, image_id = get_image()
-    task_II.histogram_generator(image, image_id, color_space)
-
+    task_II.histogram_generator(image, image_id, color_space, imagedb)
+    print("\a")#system beep
     print("================ Task III ================")
     image, image_id = get_image()
-    task_III.dct_freq(image, image_id, color_space)
-
+    task_III.dct_freq(image, image_id, color_space, imagedb)
+    print("\a")#system beep
     print("================ Task IV ================")
     image, image_id = get_image()
-    task_IV.do_task_4(image, image_id, color_space)
+    task_IV.do_task_4(image, image_id, color_space, imagedb)
 	
     print("================ Task V ================")
     image, image_id = get_image()
-    task_V.do_task_5(image, image_id, color_space)
+    task_V.do_task_5(image, image_id, color_space, imagedb)
 	
     print("================ Task VI ================")
     image, image_id = get_image()
-    task_VI.dwt_freq(image, image_id, color_space)
+    task_VI.dwt_freq(image, image_id, color_space, imagedb)
 
 if __name__ == '__main__':
     main(sys.argv[1:]) # skip first argument ("main.py")

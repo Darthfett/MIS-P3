@@ -18,7 +18,7 @@ from divider import get_image_cells
 
 OUTPUT_FOLDER = os.path.join(os.path.split(__file__)[0], "../", "Outputs")
 
-def dct_freq(image, image_id, color_space):
+def dct_freq(image, image_id, color_space, imagedb):
     pixels = list(image.getdata())
     width = image.size[0]
 
@@ -35,7 +35,8 @@ def dct_freq(image, image_id, color_space):
             most_significant = freq_components[:16]
             for freq_bin, value in enumerate(most_significant):
                 output.append((image_id, cell_coord, channel_id, freq_bin, value))
-
+                cell_id = imagedb.get_cell_id(image_id, cell_coord)
+                imagedb.add_dct(cell_id, channel_id, freq_bin, value)
     with open(os.path.join(OUTPUT_FOLDER, "Task_III_out.txt"), 'w') as f:
         f.write('\n'.join(str(s) for s in output))
 

@@ -32,24 +32,17 @@ class myDB(object):
         info = [image_id, cell_coord]
         self.cursor.execute("INSERT INTO cells VALUES (NULL, ?, ?)", info)
         self.conn.commit()
-    def add_channels(self,colorspace):
-        if colorspace == 'RGB':
-            c1 = 'R'
-            c2 = 'G'
-            c3 = 'B'
-        elif colorspace == 'YUV':
-            c1 = 'Y'
-            c2 = 'U'
-            c3 = 'V'
-        elif colorspace == 'HSV':
-            c1 = 'H'
-            c2 = 'S'
-            c3 = 'V'
+    def get_cell_id(self, image_id, cell_coord):
+        info = [image_id, cell_coord]
+        self.cursor.execute("SELECT cell_id FROM cells WHERE image_id = (?) AND cell_coord =(?)", info)
+    def add_channels(colorspace):
+        if colorspace in {'RGB', 'YUV', 'HSV'}:
+            c = colorspace
         else:
-            #colorspace = RGB
-            c1 = 'R'
-            c2 = 'G'
-            c3 = 'B'
+            c = 'RGB'
+        
+        channels = zip(range(1,4), c)
+        self.cursor.executemany("""INSERT INTO channels VALUES (?,?)""", channels)
         channels = [(1, c1),(2, c2), (3, c3)]
         self.cursor.executemany("INSERT INTO channels VALUES (?,?)", channels)
         self.conn.commit()
