@@ -75,42 +75,50 @@ def get_database_name():
 
     filename = raw_input("Enter a database filename: ").lower()
     db = filename+str(datetime.today().minute)
-    
+
     if not db:
         db = default_database
-    
+
     return db
-    
+
 def main(args):
     image_dir = get_image_dir()
     color_space = get_color_space()
     image_paths = get_image_files(image_dir)
     images = [pil.open(img) for img in image_paths]
+
+    # DB stuff
     db = get_database_name()
     imagedb = imagedata.myDB(db)
     imagedb.make_db()
+
     print("================ Task I ================")
     task_I.median_cut_histogram(images, color_space)
 
     print("================ Task II ================")
     image, image_id = get_image()
-    task_II.histogram_generator(image, image_id, color_space, imagedb)
-    print("\a")#system beep
+    task_II.histogram_generator(image, image_id, color_space)
+    # task_II.histogram_generator(image, image_id, color_space, imagedb)
+    # print("\a")#system beep
     print("================ Task III ================")
     image, image_id = get_image()
-    task_III.dct_freq(image, image_id, color_space, imagedb)
-    print("\a")#system beep
+    task_III.dct_freq(image, image_id, color_space)
+    # task_III.dct_freq(image, image_id, color_space, imagedb)
+    # print("\a")#system beep
     print("================ Task IV ================")
     image, image_id = get_image()
-    task_IV.do_task_4(image, image_id, color_space, imagedb)
-	
+    task_IV.do_task_4(image, image_id, color_space)
+    # task_IV.do_task_4(image, image_id, color_space, imagedb)
+
     print("================ Task V ================")
     image, image_id = get_image()
-    task_V.do_task_5(image, image_id, color_space, imagedb)
-	
+    task_V.do_task_5(image, image_id, color_space)
+    # task_V.do_task_5(image, image_id, color_space, imagedb)
+
     print("================ Task VI ================")
     image, image_id = get_image()
-    task_VI.dwt_freq(image, image_id, color_space, imagedb)
+    task_VI.dwt_freq(image, image_id, color_space)
+    # task_VI.dwt_freq(image, image_id, color_space, imagedb)
 
 if __name__ == '__main__':
     main(sys.argv[1:]) # skip first argument ("main.py")
