@@ -42,7 +42,7 @@ class myDB(object):
             c = 'RGB'
         
         channels = zip(range(1,4), c)
-        self.cursor.executemany("""INSERT INTO channels VALUES (?,?)""", channels)
+        self.cursor.executemany("INSERT INTO channels VALUES (?,?)", channels)
         channels = [(1, c1),(2, c2), (3, c3)]
         self.cursor.executemany("INSERT INTO channels VALUES (?,?)", channels)
         self.conn.commit()
