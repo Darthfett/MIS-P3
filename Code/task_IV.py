@@ -84,38 +84,23 @@ def angle_histogram_generator(image, image_id, color_space):
     #for c1:
     image_cells = list(get_image_cells(c1, width, 8, 8))
     for cell_coord, cell in enumerate(image_cells):
-        #pdb.set_trace()
         color_instance_id_list, value_list = get_hist_angle_bins(cell)
         for i in range (0,15):
             histogram_output.append((image_id, cell_coord, n1, color_instance_id_list[i], value_list[i]))
-            
-    return histogram_output
     #for c2:
     image_cells = list(get_image_cells(c2, width, 8, 8))
     for cell_coord, cell in enumerate(image_cells):
-        #pdb.set_trace()
         color_instance_id_list, value_list = get_hist_angle_bins(cell)
         for i in range (0,15):
             histogram_output.append((image_id, cell_coord, n2, color_instance_id_list[i], value_list[i]))
-            
-    return histogram_output
     #for c3:
     image_cells = list(get_image_cells(c3, width, 8, 8))
     for cell_coord, cell in enumerate(image_cells):
         color_instance_id_list, value_list = get_hist_angle_bins(cell)
         for i in range (0,15):
             histogram_output.append((image_id, cell_coord, n3, color_instance_id_list[i], value_list[i]))
-            
-            
     return histogram_output
 
-def do_task_4db(image, image_id, color_space, imagedb):
-    output = angle_histogram_generator(image, image_id, color_space)
-    newOutput = []
-    for instance in output:
-        cell_id = imagedb.get_cell_id(instance.image_id, instance.cell_coord)
-        newOutput.append()
-        imagedb.add_grad_angle(cell_id, n3, color_instance_id_list[i], value_list[i])
 def do_task_4(image, image_id, color_space):
         output = angle_histogram_generator(image, image_id, color_space)
         with open(os.path.join(OUTPUT_FOLDER, "Task_IV_out.txt"), 'w') as output_file:
@@ -123,8 +108,8 @@ def do_task_4(image, image_id, color_space):
 
 '''
 #testing:        
-pilim = Image.open('bacon_coke.jpg')
-image_id = 'bacon_coke.jpg'
+pilim = Image.open('chewbacca.jpg')
+image_id = 'chewbacca.jpg'
 color_space = "rgb"
 do_task_4(pilim, image_id, color_space)
 '''

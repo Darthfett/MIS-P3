@@ -73,27 +73,22 @@ def amplitude_histogram_generator(image, image_id, color_space):
         color_instance_id_list, value_list = get_hist_amp_bins(cell)
         for i in range (0,15):
             histogram_output.append((image_id, cell_coord, n1, color_instance_id_list[i], value_list[i]))
-            
-    return histogram_output
     #for c2:
     image_cells = list(get_image_cells(c2, width, 8, 8))
     for cell_coord, cell in enumerate(image_cells):
         color_instance_id_list, value_list = get_hist_amp_bins(cell)
         for i in range (0,15):
             histogram_output.append((image_id, cell_coord, n2, color_instance_id_list[i], value_list[i]))
-            
-    return histogram_output
     #for c3:
     image_cells = list(get_image_cells(c3, width, 8, 8))
     for cell_coord, cell in enumerate(image_cells):
         color_instance_id_list, value_list = get_hist_amp_bins(cell)
         for i in range (0,15):
             histogram_output.append((image_id, cell_coord, n3, color_instance_id_list[i], value_list[i]))
-            
     return histogram_output
     
 
-def do_task_5(image, image_id, color_space, imagedb):
+def do_task_5(image, image_id, color_space):
         output = amplitude_histogram_generator(image, image_id, color_space)
         with open(os.path.join(OUTPUT_FOLDER, "Task_V_out.txt"), 'w') as output_file:
             output_file.write('\n'.join(str(s) for s in output))
