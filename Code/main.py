@@ -38,9 +38,9 @@ def process_batch(dir):
         #perform tasks 2 - 6
         image, image_id = get_image()
         print("================ Task II ================")
-        task_II.histogram_generator(image, image_id, color_space, imagedb)
+        task_II.histogram_gendb(image, image_id, color_space, imagedb)
         print("================ Task III ================")
-        task_III.dct_freq(image, image_id, color_space, imagedb)
+        task_III.dct_freqdb(image, image_id, color_space, imagedb)
         print("================ Task IV ================")
         task_IV.do_task_4(image, image_id, color_space, imagedb)
         print("================ Task V ================")

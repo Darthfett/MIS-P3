@@ -73,8 +73,7 @@ def amplitude_histogram_generator(image, image_id, color_space):
         color_instance_id_list, value_list = get_hist_amp_bins(cell)
         for i in range (0,15):
             histogram_output.append((image_id, cell_coord, n1, color_instance_id_list[i], value_list[i]))
-            cell_id = imagedb.get_cell_id(image_id, cell_coord)
-            imagedb.add_grad_amp(cell_id, n1, color_instance_id_list[i], value_list[i])
+            
     return histogram_output
     #for c2:
     image_cells = list(get_image_cells(c2, width, 8, 8))
@@ -82,8 +81,7 @@ def amplitude_histogram_generator(image, image_id, color_space):
         color_instance_id_list, value_list = get_hist_amp_bins(cell)
         for i in range (0,15):
             histogram_output.append((image_id, cell_coord, n2, color_instance_id_list[i], value_list[i]))
-            cell_id = imagedb.get_cell_id(image_id, cell_coord)
-            imagedb.add_grad_amp(cell_id, n1, color_instance_id_list[i], value_list[i])
+            
     return histogram_output
     #for c3:
     image_cells = list(get_image_cells(c3, width, 8, 8))
@@ -91,8 +89,7 @@ def amplitude_histogram_generator(image, image_id, color_space):
         color_instance_id_list, value_list = get_hist_amp_bins(cell)
         for i in range (0,15):
             histogram_output.append((image_id, cell_coord, n3, color_instance_id_list[i], value_list[i]))
-            cell_id = imagedb.get_cell_id(image_id, cell_coord)
-            imagedb.add_grad_amp(cell_id, n1, color_instance_id_list[i], value_list[i])
+            
     return histogram_output
     
 

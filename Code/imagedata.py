@@ -34,7 +34,10 @@ class myDB(object):
         self.conn.commit()
     def get_cell_id(self, image_id, cell_coord):
         info = [image_id, cell_coord]
-        self.cursor.execute("SELECT cell_id FROM cells WHERE image_id = (?) AND cell_coord =(?)", info)
+        rows = self.cursor.execute("SELECT cell_id FROM cells WHERE image_id = (?) AND cell_coord =(?)", info)
+        if rows > 0:
+            cell_id = self.cursor.fetchone()[0]
+        return cell_id
     def add_channels(colorspace):
         if colorspace in {'RGB', 'YUV', 'HSV'}:
             c = colorspace
@@ -49,10 +52,14 @@ class myDB(object):
     def clear_db(fullfilepath):
         self.conn.close()
         delete(fullfilepath)
+    def add_cell_histogram(tuples):
+        self.cursor.executemany("INSERT INTO color_instance VALUES (?, ?, ?)", tuples)
     def add_dct(self, cell_id, channel_id, freq_bin_id, freq_bin_value):
         info = [cell_id, channel_id, freq_bin_id, freq_bin_value]
         self.cursor.execute("INSERT INTO dct VALUES (?,?,?,?)", info)
         self.conn.commit()
+    def add_multiple_dct(tuples):
+        self.cursor.executemany("INSERT INTO dct VALUES (?, ?, ?, ?)", tuples)
     def add_grad_angle(self, cell_id, channel_id, angle_bin_id, angle_bin_value):
         info = [cell_id, channel_id, angle_bin_id, angle_bin_value]
         self.cursor.execute("INSERT INTO grad_angle VALUES (?,?,?,?)", info)

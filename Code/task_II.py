@@ -87,7 +87,16 @@ def generate_histogram(image, image_id, color_space, hist_spec):
             histogram_output.append((image_id, cell_coord, color_instance_id, value))
 
     return histogram_output
-
+    
+def histogram_gendb(image, image_id, color_space, imagedb):
+    hist_spec = get_histogram_spec()
+    histogram_output = generate_histogram(image, image_id, color_space, hist_spec)
+    newHistogramOutput =[]
+    for instance in histogram_output:
+        cell_id = imagedb.get_cell_id(instance.image, instance.cell_coord)
+        newHistogramOutput.append((cell_id, instance.color_instance_id, instance.value))
+    imagedb.add_cell_histogram(newHistogramOutput)
+        
 def histogram_generator(image, image_id, color_space):
     hist_spec = get_histogram_spec()
     histogram_output = generate_histogram(image, image_id, color_space, hist_spec)
@@ -95,6 +104,6 @@ def histogram_generator(image, image_id, color_space):
     # for (image_id, cell_coord, color_instance_id, value) in histogram_output:
     #     if color_instance_id == 0:
     #         imagedb.add_cell(image_id, cell_coord)
-
+    
     with open(os.path.join(OUTPUT_FOLDER, "Task_II_histogram.txt"), 'w') as histogram_file:
         histogram_file.write('\n'.join(str(s) for s in histogram_output))

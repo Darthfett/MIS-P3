@@ -37,7 +37,15 @@ def get_dct_freq(image, image_id, color_space):
                 output.append((image_id, cell_coord, channel_id, freq_bin, value))
 
     return sorted(output)
-
+    
+def dct_freqdb (image, image_id, color_space, imagedb):
+    output = get_dct_freq(image, image_id, color_space)
+    newOutput = []
+    for instance in output:
+        cell_id = imagedb.get_cell_id(instance.image, instance.cell_coord)
+        newOutput.append((cell_id, instance.channel_id, instance.freq_bin, instance.value))
+    imagedb.add_cell_histogram(newOutput)
+    
 def dct_freq(image, image_id, color_space):
     output = get_dct_freq(image, image_id, color_space)
 
