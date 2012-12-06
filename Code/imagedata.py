@@ -54,22 +54,34 @@ class myDB(object):
         delete(fullfilepath)
     def add_cell_histogram(tuples):
         self.cursor.executemany("INSERT INTO color_instance VALUES (?, ?, ?)", tuples)
+        self.conn.commit()
     def add_dct(self, cell_id, channel_id, freq_bin_id, freq_bin_value):
         info = [cell_id, channel_id, freq_bin_id, freq_bin_value]
         self.cursor.execute("INSERT INTO dct VALUES (?,?,?,?)", info)
         self.conn.commit()
     def add_multiple_dct(tuples):
         self.cursor.executemany("INSERT INTO dct VALUES (?, ?, ?, ?)", tuples)
+        self.conn.commit()
     def add_grad_angle(self, cell_id, channel_id, angle_bin_id, angle_bin_value):
         info = [cell_id, channel_id, angle_bin_id, angle_bin_value]
         self.cursor.execute("INSERT INTO grad_angle VALUES (?,?,?,?)", info)
+        self.conn.commit()
+    def add_multiple_angle(tuples):
+        self.cursor.executemany("INSERT INTO grad_angle VALUES (?, ?, ?, ?)", tuples)
+        self.conn.commit()
     def add_grad_amp(self, cell_id, channel_id, amplitude_bin_id, amplitude_bin_value):
         info = [cell_id, channel_id, amplitude_bin_id, amplitude_bin_value]
         self.cursor.execute("INSERT INTO grad_amp VALUES (?,?,?,?)", info)
         self.conn.commit()
+    def add_multiple_amp(tuples):
+        self.cursor.executemany("INSERT INTO grad_amp VALUES (?, ?, ?, ?)", tuples)
+        self.conn.commit()
     def add_dwt(self, cell_id, channel_id, wavelet_bin_id, wavelet_bin_value):
         info = [cell_id, channel_id, wavelet_bin_id, wavelet_bin_value]
         self.cursor.execute("INSERT INTO dwt VALUES (?,?,?,?)", info)
+        self.conn.commit()
+    def add_multiple_dct(tuples):
+        self.cursor.executemany("INSERT INTO dwt VALUES (?, ?, ?, ?)", tuples)
         self.conn.commit()
     def query_db(self, qrystring):
         self.cursor.execute(qrystring)

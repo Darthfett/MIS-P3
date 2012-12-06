@@ -24,8 +24,7 @@ def grouper(n, iterable, fillvalue=None): # this is an itertools recipe function
     return izip_longest(fillvalue=fillvalue, *args)
 
 OUTPUT_FOLDER = os.path.join(os.path.split(__file__)[0], "../", "Outputs")
-
-def dwt_freq(image, image_id, color_space, imagedb):
+def dwt_freq_generator(image, image_id, color_space):
     pixels = list(image.getdata())
     width = image.size[0]
 
@@ -42,7 +41,16 @@ def dwt_freq(image, image_id, color_space, imagedb):
             most_significant = freq_components[:16]
             for freq_bin, value in enumerate(most_significant):
                 output.append((image_id, cell_coord, channel_id, freq_bin, value))
-                
+def dwt_freqdb(image, image_id, color_space, imagedb):
+    output = dwt_freq_generator(image, image_id, color_space)
+    newOutput = []
+    for instance in output:
+        cell_id = imagedb.get_cell_id(instance.image, instance.cell_coord)
+        newOutput.append((cell_id, instance.channel_id, instance.freq_bin, instance.value))
+    imagedb.add_multiple_dwt(newOutput)
+    
+def dwt_freq(image, image_id, color_space):
+    output = dwt_freq_generator(image, image_id, color_space)
     with open(os.path.join(OUTPUT_FOLDER, "Task_VI_out.txt"), 'w') as f:
         f.write('\n'.join(str(s) for s in output))
 

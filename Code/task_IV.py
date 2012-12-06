@@ -81,6 +81,7 @@ def angle_histogram_generator(image, image_id, color_space):
         n2 = 'S'
         n3 = 'V'
     histogram_output = []
+    
     #for c1:
     image_cells = list(get_image_cells(c1, width, 8, 8))
     for cell_coord, cell in enumerate(image_cells):
@@ -100,7 +101,15 @@ def angle_histogram_generator(image, image_id, color_space):
         for i in range (0,15):
             histogram_output.append((image_id, cell_coord, n3, color_instance_id_list[i], value_list[i]))
     return histogram_output
-
+    
+def do_task_4db(image, image_id, color_space, imagedb):
+    output = angle_histogram_generator(image, image_id, color_space)
+    newOutput = []
+    for instance in output:
+        cell_id = imagedb.get_cell_id(instance.image, instance.cell_coord)
+        newOutput.append((cell_id, instance.channel_id, instance.color_instance_id, instance.value))
+    imagedb.add_multiple_angle(newOutput)
+    
 def do_task_4(image, image_id, color_space):
         output = angle_histogram_generator(image, image_id, color_space)
         with open(os.path.join(OUTPUT_FOLDER, "Task_IV_out.txt"), 'w') as output_file:
