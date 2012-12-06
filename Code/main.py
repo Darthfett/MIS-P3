@@ -16,7 +16,7 @@ import task_IV
 import task_V
 import task_VI
 import imagedata
-from image_retrieval import
+import image_retrieval as ir
 
 #Task VII
 def batch_option():
@@ -24,9 +24,9 @@ def batch_option():
     return response
 
 def process_batch(dir):
-    image_paths = get_image_files(dir)
+    image_paths = ir.get_image_files(dir)
     images = [pil.open(img) for img in image_paths]
-    db = get_database_name()
+    db = ir.get_database_name()
     imagedb = imagedata.myDB(db)
     imagedb.make_db()
     color_space = get_color_space()
@@ -42,20 +42,20 @@ def process_batch(dir):
         print("================ Task III ================")
         task_III.dct_freqdb(image, image_id, color_space, imagedb)
         print("================ Task IV ================")
-        task_IV.do_task_4(image, image_id, color_space, imagedb)
+        task_IV.do_task_4db(image, image_id, color_space, imagedb)
         print("================ Task V ================")
-        task_V.do_task_5(image, image_id, color_space, imagedb)
+        task_V.do_task_5db(image, image_id, color_space, imagedb)
         print("================ Task VI ================")
-        task_VI.dwt_freq(image, image_id, color_space, imagedb)
+        task_VI.dwt_freqdb(image, image_id, color_space, imagedb)
 
 def main(args):
-    image_dir = get_image_dir()
-    color_space = get_color_space()
-    image_paths = get_image_files(image_dir)
+    image_dir = ir.get_image_dir()
+    color_space = ir.get_color_space()
+    image_paths = ir.get_image_files(image_dir)
     images = [pil.open(img) for img in image_paths]
 
     # DB stuff
-    db = get_database_name()
+    db = ir.get_database_name()
     imagedb = imagedata.myDB(db)
     imagedb.make_db()
 
@@ -63,29 +63,29 @@ def main(args):
     task_I.median_cut_histogram(images, color_space)
 
     print("================ Task II ================")
-    image, image_id = get_image()
+    image, image_id = ir.get_image()
     task_II.histogram_generator(image, image_id, color_space)
 
     print("================ Task III ================")
-    image, image_id = get_image()
+    image, image_id = ir.get_image()
     task_III.dct_freq(image, image_id, color_space)
 
     print("================ Task IV ================")
-    image, image_id = get_image()
+    image, image_id = ir.get_image()
     task_IV.do_task_4(image, image_id, color_space)
 
     print("================ Task V ================")
-    image, image_id = get_image()
+    image, image_id = ir.get_image()
     task_V.do_task_5(image, image_id, color_space)
 
     print("================ Task VI ================")
-    image, image_id = get_image()
+    image, image_id = ir.get_image()
     task_VI.dwt_freq(image, image_id, color_space)
 
     print("================ Task VII ================")
     response = batch_option()
     if response == 'y':
-        batch_dir = get_image_dir()
+        batch_dir = ir.get_image_dir()
         process_batch(batch_dir)
 
 if __name__ == '__main__':
