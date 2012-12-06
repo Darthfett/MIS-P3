@@ -26,17 +26,18 @@ def batch_option():
 def process_batch(dir):
     image_paths = ir.get_image_files(dir)
     images = [pil.open(img) for img in image_paths]
+    image_paths_str = ir.get_batch_images(dir)
+    
     db = ir.get_database_name()
     imagedb = imagedata.myDB(db)
     imagedb.make_db()
-    color_space = get_color_space()
+    color_space = ir.get_color_space()
     print("=========== Batch Processing ===========")
     print("================ Task I ================")
-    task_I.median_cut_histogram(images, color_space)
-
-    for image in images:
+    task_I.median_cut_histogram(images, color_space)    
+    for index, image in enumerate(images):        
         #perform tasks 2 - 6
-        image, image_id = get_image()
+        image_id = image_paths_str[index]
         print("================ Task II ================")
         task_II.histogram_gendb(image, image_id, color_space, imagedb)
         print("================ Task III ================")
@@ -53,11 +54,6 @@ def main(args):
     color_space = ir.get_color_space()
     image_paths = ir.get_image_files(image_dir)
     images = [pil.open(img) for img in image_paths]
-
-    # DB stuff
-    db = ir.get_database_name()
-    imagedb = imagedata.myDB(db)
-    imagedb.make_db()
 
     print("================ Task I ================")
     task_I.median_cut_histogram(images, color_space)

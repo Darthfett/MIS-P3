@@ -33,6 +33,13 @@ def get_image_dir():
         image_dir = raw_input("Enter a directory containing the images: ")
     return image_dir
 
+def get_batch_images(dir):
+    img_path_list = []
+    image_paths = get_image_files(dir)
+    for path in image_paths:
+        img_path_list.append(str(path))
+    return img_path_list
+    
 def get_image():
     image_fn = ''
     while not image_fn:
@@ -43,6 +50,7 @@ def get_image():
 
     return pil.open(image_fn), os.path.split(image_fn)[1]
 
+    
 def get_color_space():
     """Get a valid color space from the user."""
     # The set of supported color spaces (as per instructions)

@@ -41,6 +41,7 @@ def dwt_freq_generator(image, image_id, color_space):
             most_significant = freq_components[:16]
             for freq_bin, value in enumerate(most_significant):
                 output.append((image_id, cell_coord, channel_id, freq_bin, value))
+    return output
 def dwt_freqdb(image, image_id, color_space, imagedb):
     output = dwt_freq_generator(image, image_id, color_space)
     newOutput = []
@@ -51,8 +52,8 @@ def dwt_freqdb(image, image_id, color_space, imagedb):
     
 def dwt_freq(image, image_id, color_space):
     output = dwt_freq_generator(image, image_id, color_space)
-    with open(os.path.join(OUTPUT_FOLDER, "Task_VI_out.txt"), 'w') as f:
-        f.write('\n'.join(str(s) for s in output))
+    with open(os.path.join(OUTPUT_FOLDER, "Task_VI_out.txt"), 'w') as output_file:
+        output_file.write('\n'.join(str(s) for s in output))
 
 
 def dwt(channel):
