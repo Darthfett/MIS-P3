@@ -42,6 +42,7 @@ def process_batch(dir):
         task_II.histogram_gendb(image, image_id, color_space, imagedb)
         print("================ Task III ================")
         task_III.dct_freqdb(image, image_id, color_space, imagedb)
+        
         print("================ Task IV ================")
         task_IV.do_task_4db(image, image_id, color_space, imagedb)
         print("================ Task V ================")

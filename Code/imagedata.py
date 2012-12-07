@@ -24,8 +24,8 @@ class myDB(object):
         self.cursor.execute("CREATE TABLE color_instance (cell_id integer, ci_id text, ci_value integer)")
         self.cursor.execute("CREATE TABLE channels (channel_id text, channel_value text)")
         self.cursor.execute("CREATE TABLE dct (cell_id integer,  channel_id text, freq_bin_id text, freq_bin_value integer)")
-        self.cursor.execute("CREATE TABLE grad_angle(cell_id integer,  channel_id text, angle_bin_id text, angle_bin_value integer)")
-        self.cursor.execute("CREATE TABLE grad_amp(cell_id integer,  channel_id text, amplitude_bin_id text, amplitude_bin_value integer)")
+        self.cursor.execute("CREATE TABLE grad_angle(cell_id integer,  channel_id text, angle_bin_id real, angle_bin_value integer)")
+        self.cursor.execute("CREATE TABLE grad_amp(cell_id integer,  channel_id text, amplitude_bin_id real, amplitude_bin_value integer)")
         self.cursor.execute("CREATE TABLE dwt(cell_id integer,  channel_id text, wavelet_bin_id text, wavelet_bin_value integer)")
         self.conn.commit()
     def add_cell(self, image_id, cell_coord):
@@ -38,7 +38,7 @@ class myDB(object):
         if rows > 0:
             cell_id = self.cursor.fetchone()[0]
         return cell_id
-    def add_channels(colorspace):
+    def add_channels(self, colorspace):
         if colorspace in {'RGB', 'YUV', 'HSV'}:
             c = colorspace
         else:
@@ -49,38 +49,38 @@ class myDB(object):
         channels = [(1, c1),(2, c2), (3, c3)]
         self.cursor.executemany("INSERT INTO channels VALUES (?,?)", channels)
         self.conn.commit()
-    def clear_db(fullfilepath):
+    def clear_db(self, fullfilepath):
         self.conn.close()
         delete(fullfilepath)
-    def add_cell_histogram(tuples):
+    def add_cell_histogram(self, tuples):
         self.cursor.executemany("INSERT INTO color_instance VALUES (?, ?, ?)", tuples)
         self.conn.commit()
     def add_dct(self, cell_id, channel_id, freq_bin_id, freq_bin_value):
         info = [cell_id, channel_id, freq_bin_id, freq_bin_value]
         self.cursor.execute("INSERT INTO dct VALUES (?,?,?,?)", info)
         self.conn.commit()
-    def add_multiple_dct(tuples):
+    def add_multiple_dct(self, tuples):
         self.cursor.executemany("INSERT INTO dct VALUES (?, ?, ?, ?)", tuples)
         self.conn.commit()
     def add_grad_angle(self, cell_id, channel_id, angle_bin_id, angle_bin_value):
         info = [cell_id, channel_id, angle_bin_id, angle_bin_value]
         self.cursor.execute("INSERT INTO grad_angle VALUES (?,?,?,?)", info)
         self.conn.commit()
-    def add_multiple_angle(tuples):
+    def add_multiple_angle(self, tuples):
         self.cursor.executemany("INSERT INTO grad_angle VALUES (?, ?, ?, ?)", tuples)
         self.conn.commit()
     def add_grad_amp(self, cell_id, channel_id, amplitude_bin_id, amplitude_bin_value):
         info = [cell_id, channel_id, amplitude_bin_id, amplitude_bin_value]
         self.cursor.execute("INSERT INTO grad_amp VALUES (?,?,?,?)", info)
         self.conn.commit()
-    def add_multiple_amp(tuples):
+    def add_multiple_amp(self, tuples):
         self.cursor.executemany("INSERT INTO grad_amp VALUES (?, ?, ?, ?)", tuples)
         self.conn.commit()
     def add_dwt(self, cell_id, channel_id, wavelet_bin_id, wavelet_bin_value):
         info = [cell_id, channel_id, wavelet_bin_id, wavelet_bin_value]
         self.cursor.execute("INSERT INTO dwt VALUES (?,?,?,?)", info)
         self.conn.commit()
-    def add_multiple_dct(tuples):
+    def add_multiple_dwt(self, tuples):
         self.cursor.executemany("INSERT INTO dwt VALUES (?, ?, ?, ?)", tuples)
         self.conn.commit()
     def query_db(self, qrystring):

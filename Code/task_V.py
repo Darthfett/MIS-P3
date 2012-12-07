@@ -72,28 +72,28 @@ def amplitude_histogram_generator(image, image_id, color_space):
     for cell_coord, cell in enumerate(image_cells):
         color_instance_id_list, value_list = get_hist_amp_bins(cell)
         for i in range (0,15):
-            histogram_output.append((image_id, cell_coord, n1, color_instance_id_list[i], value_list[i]))
+            histogram_output.append((image_id, cell_coord, n1, i, value_list[i]))
     #for c2:
     image_cells = list(get_image_cells(c2, width, 8, 8))
     for cell_coord, cell in enumerate(image_cells):
         color_instance_id_list, value_list = get_hist_amp_bins(cell)
         for i in range (0,15):
-            histogram_output.append((image_id, cell_coord, n2, color_instance_id_list[i], value_list[i]))
+            histogram_output.append((image_id, cell_coord, n2, i, value_list[i]))
     #for c3:
     image_cells = list(get_image_cells(c3, width, 8, 8))
     for cell_coord, cell in enumerate(image_cells):
         color_instance_id_list, value_list = get_hist_amp_bins(cell)
         for i in range (0,15):
-            histogram_output.append((image_id, cell_coord, n3, color_instance_id_list[i], value_list[i]))
+            histogram_output.append((image_id, cell_coord, n3, i, value_list[i]))
     return histogram_output
     
 def do_task_5db(image,image_id, color_space, imagedb):
     output = amplitude_histogram_generator(image, image_id, color_space)
     newOutput = []
-    for instance in output:
-        cell_id = imagedb.get_cell_id(instance.image, instance.cell_coord)
-        newOutput.append((cell_id, instance.channel_id, instance.color_instance_id, instance.value))
-    imagedb.add_multiple_dct(newOutput)
+    for (image_id, cell_coord, channel, i, value) in output:
+        cell_id = imagedb.get_cell_id(image_id, cell_coord)
+        newOutput.append((cell_id, channel, i, int(value)))
+    imagedb.add_multiple_amp(newOutput)
     
 def do_task_5(image, image_id, color_space):
     output = amplitude_histogram_generator(image, image_id, color_space)

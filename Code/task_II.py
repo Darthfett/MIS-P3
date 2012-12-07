@@ -92,12 +92,11 @@ def histogram_gendb(image, image_id, color_space, imagedb):
     hist_spec = get_histogram_spec()
     histogram_output = generate_histogram(image, image_id, color_space, hist_spec)
     newHistogramOutput =[]
-    for instance in histogram_output:
-        for index, item in enumerate(instance):
-            print index, item
-        #cell_id = imagedb.get_cell_id(image_id, cell_coord)
-        #newHistogramOutput.append((cell_id, instance.color_instance_id, instance.value))
-    #imagedb.add_cell_histogram(newHistogramOutput)
+    for (image_id, cell_coord, color_instance_id, value) in histogram_output:
+        imagedb.add_cell(image_id, cell_coord)
+        cell_id = imagedb.get_cell_id(image_id, cell_coord)
+        newHistogramOutput.append((cell_id, color_instance_id, value))
+    imagedb.add_cell_histogram(newHistogramOutput)
         
 def histogram_generator(image, image_id, color_space):
     hist_spec = get_histogram_spec()
