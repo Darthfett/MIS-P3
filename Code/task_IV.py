@@ -86,19 +86,19 @@ def angle_histogram_generator(image, image_id, color_space):
     image_cells = list(get_image_cells(c1, width, 8, 8))
     for cell_coord, cell in enumerate(image_cells):
         color_instance_id_list, value_list = get_hist_angle_bins(cell)
-        for i in range (0,15):
+        for i in range (0,16):
             histogram_output.append((image_id, cell_coord, n1, i, value_list[i]))
     #for c2:
     image_cells = list(get_image_cells(c2, width, 8, 8))
     for cell_coord, cell in enumerate(image_cells):
         color_instance_id_list, value_list = get_hist_angle_bins(cell)
-        for i in range (0,15):
+        for i in range (0,16):
             histogram_output.append((image_id, cell_coord, n2, i, value_list[i]))
     #for c3:
     image_cells = list(get_image_cells(c3, width, 8, 8))
     for cell_coord, cell in enumerate(image_cells):
         color_instance_id_list, value_list = get_hist_angle_bins(cell)
-        for i in range (0,15):
+        for i in range (0,16):
             histogram_output.append((image_id, cell_coord, n3, i, value_list[i]))
     return histogram_output
     
@@ -107,7 +107,7 @@ def do_task_4db(image, image_id, color_space, imagedb):
     newOutput = []
     for (image_id, cell_coord, channel, i, value) in output:
         cell_id = imagedb.get_cell_id(image_id, cell_coord)
-        newOutput.append((cell_id, channel, i, int(value)))
+        newOutput.append((cell_id, channel, i, float(value)))
     imagedb.add_multiple_angle(newOutput)
     
 def do_task_4(image, image_id, color_space):

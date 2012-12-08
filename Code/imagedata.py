@@ -24,8 +24,8 @@ class myDB(object):
         self.cursor.execute("CREATE TABLE color_instance (cell_id integer, ci_id text, ci_value integer)")
         self.cursor.execute("CREATE TABLE channels (channel_id text, channel_value text)")
         self.cursor.execute("CREATE TABLE dct (cell_id integer,  channel_id text, freq_bin_id text, freq_bin_value integer)")
-        self.cursor.execute("CREATE TABLE grad_angle(cell_id integer,  channel_id text, angle_bin_id real, angle_bin_value integer)")
-        self.cursor.execute("CREATE TABLE grad_amp(cell_id integer,  channel_id text, amplitude_bin_id real, amplitude_bin_value integer)")
+        self.cursor.execute("CREATE TABLE grad_angle(cell_id integer,  channel_id text, angle_bin_id real, angle_bin_value real)")
+        self.cursor.execute("CREATE TABLE grad_amp(cell_id integer,  channel_id text, amplitude_bin_id real, amplitude_bin_value real)")
         self.cursor.execute("CREATE TABLE dwt(cell_id integer,  channel_id text, wavelet_bin_id text, wavelet_bin_value integer)")
         self.conn.commit()
     def add_cell(self, image_id, cell_coord):

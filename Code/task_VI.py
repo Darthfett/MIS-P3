@@ -47,7 +47,7 @@ def dwt_freqdb(image, image_id, color_space, imagedb):
     newOutput = []
     for (image_id, cell_coord, channel_id, freq_bin, value) in output:
         cell_id = imagedb.get_cell_id(image_id, cell_coord)
-        newOutput.append((cell_id, channel_id, freq_bin, value))
+        newOutput.append((cell_id, channel_id, freq_bin, float(value)))
     imagedb.add_multiple_dwt(newOutput)
     
 def dwt_freq(image, image_id, color_space):
