@@ -49,7 +49,7 @@ def dwt_freqdb(image, image_id, color_space, imagedb):
         cell_id = imagedb.get_cell_id(image_id, cell_coord)
         newOutput.append((cell_id, channel_id, freq_bin, float(value)))
     imagedb.add_multiple_dwt(newOutput)
-    
+
 def dwt_freq(image, image_id, color_space):
     output = dwt_freq_generator(image, image_id, color_space)
     with open(os.path.join(OUTPUT_FOLDER, "Task_VI_out.txt"), 'w') as output_file:
@@ -58,5 +58,5 @@ def dwt_freq(image, image_id, color_space):
 
 def dwt(channel):
     cA, (cH,cV,cD) = pywt.dwt2(channel, 'db1')
-    return list(cD)
+    return list(cV)
 

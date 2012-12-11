@@ -72,12 +72,6 @@ def split_bin(bin, component):
     bin.mins = bin.mins[:component] + (mid, ) + bin.mins[component+1:]
     new_bin.maxes = new_bin.maxes[:component] + (mid, ) + new_bin.maxes[component+1:]
 
-    if any(bin.mins[i] > bin.maxes[i] for i in range(3)):
-        import pdb; pdb.set_trace()
-
-    if any(new_bin.mins[i] > new_bin.maxes[i] for i in range(3)):
-        import pdb; pdb.set_trace()
-
     return bin, new_bin
 
 
